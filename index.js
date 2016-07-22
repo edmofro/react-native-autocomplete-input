@@ -25,6 +25,11 @@ class AutoComplete extends Component {
      * the textInput component.
      */
     inputContainerStyle: View.propTypes.style,
+    /*
+     * Sets whether the keyboard should persist during taps, preventing
+     * scroll. Default is true.
+    */
+    keyboardShouldPersistTaps: PropTypes.bool,
     /**
      * These style will be applied to the result list view.
      */
@@ -45,6 +50,7 @@ class AutoComplete extends Component {
   static defaultProps = {
     data: [],
     defaultValue: '',
+    keyboardShouldPersistTaps: 'true',
     renderItem: rowData => <Text>{rowData}</Text>
   };
 
@@ -80,12 +86,12 @@ class AutoComplete extends Component {
   }
 
   _renderItems() {
-    const { listStyle, renderItem } = this.props;
+    const { keyboardShouldPersistTaps, listStyle, renderItem } = this.props;
     const { dataSource } = this.state;
     return (
       <ListView
         dataSource={dataSource}
-        keyboardShouldPersistTaps={true}
+        keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         renderRow={renderItem}
         style={[styles.list, listStyle]}
       />
