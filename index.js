@@ -41,6 +41,11 @@ class AutoComplete extends Component {
      */
     renderItem: PropTypes.func,
     /**
+     * Sets whether results should remain open and visible after endEditing has
+     * been called, e.g. user taps outside of search box.
+     */
+    resultsShouldPersistAfterEditing: PropTypes.bool,
+    /**
      * `onShowResults` will be called when list is going to
      * show/hide results.
      */
@@ -51,6 +56,7 @@ class AutoComplete extends Component {
     data: [],
     defaultValue: '',
     keyboardShouldPersistTaps: 'true',
+    resultsShouldPersistAfterEditing: 'false',
     renderItem: rowData => <Text>{rowData}</Text>
   };
 
@@ -113,7 +119,14 @@ class AutoComplete extends Component {
 
   render() {
     const { showResults } = this.state;
-    const { containerStyle, inputContainerStyle, onEndEditing, style, ...props } = this.props;
+    const {
+      containerStyle,
+      inputContainerStyle,
+      onEndEditing,
+      resultsShouldPersistAfterEditing,
+      style,
+      ...props
+    } = this.props;
     return (
       <View style={[styles.container, containerStyle]}>
         <View style={[styles.inputContainer, inputContainerStyle]}>
@@ -121,7 +134,8 @@ class AutoComplete extends Component {
             style={[styles.input, style]}
             ref="textInput"
             onEndEditing={e =>
-              this._showResults(false) || (onEndEditing && onEndEditing(e))
+              this._showResults(!resultsShouldPersistAfterEditing)
+                                || (onEndEditing && onEndEditing(e))
             }
             {...props}
           />
