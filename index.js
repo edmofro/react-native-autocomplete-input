@@ -133,10 +133,10 @@ class AutoComplete extends Component {
           <TextInput
             style={[styles.input, style]}
             ref="textInput"
-            onEndEditing={e =>
-              this._showResults(!resultsShouldPersistAfterEditing)
-                                || (onEndEditing && onEndEditing(e))
-            }
+            onEndEditing={e => {
+              if (!resultsShouldPersistAfterEditing) this._showResults(false);
+              onEndEditing && onEndEditing(e);
+            }}
             {...props}
           />
         </View>
